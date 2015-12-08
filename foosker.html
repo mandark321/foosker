@@ -1,0 +1,23 @@
+<body ng-app="foosker">
+  <div class="home" ng-controller="HomeCtrl">
+    <header class="">
+      <div class="left">
+        <form ng-submit="go()">
+          <input type="text" id="url" name="url" placeholder="Url to retrieve pictures from" ng-model="url">
+          <button type="submit" class="btn-go">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+      </div>
+      <!-- <div class="right">
+        <span class="help">
+          <i class="fa fa-question-circle"></i>
+        </span>
+      </div> -->
+    </header>
+    <div class="tnails">
+      <thumbnail url="{{ tnail }}" ng-repeat="tnail in urlThumbnails track by $index" class="tnail">
+        <thumbnail>
+    </div>
+  </div>
+</body>
