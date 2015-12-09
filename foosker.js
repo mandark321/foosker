@@ -2,6 +2,7 @@ if (Meteor.isClient) {
   angular.module("foosker", ["angular-meteor"]);
 
   angular.module("foosker").controller("HomeCtrl", ["$scope", "$log", "$meteor", function($scope, $log, $meteor) {
+    $scope.applicationName = applicationName;
     $scope.url = "";
     $scope.homeThumbnails = [];
     $scope.urlThumbnails = [];
@@ -11,25 +12,41 @@ if (Meteor.isClient) {
     $scope.go = function() {
       $scope.urlThumbnails.length = 0;
 
-      var data = {
-        host: getLocation($scope.url).host,
-        url: $scope.url
-      };
-
-      $meteor.call("getImages", data).then(function(images) {
+      $meteor.call("getImages", getUrl($scope.url)).then(function(images) {
           $log.debug("Total images loaded:", images.length);
-
-          _.each(images, function(img) {
-            $scope.urlThumbnails.push(img);
-          })
+          angular.copy(images, $scope.urlThumbnails);
         },
         function(err) {
           $log.error("Error loading page.");
         });
     }
 
+    $scope.download = function() {
+      var images = $(".thumbnails img");
 
-    function getLocation(href) {
+      _.each(images, function(a, index) {
+        var $a = $(a);
+        $(a)[0].click();
+      })
+
+
+
+      // var zip = new JSZip();
+      // var images = $(".thumbnails img");
+      //
+      // _.each(images, function(img, index) {
+      //   zip.file(index + ".jpg", getBase64Image(img.src), {
+      //     base64: true
+      //   });
+      // })
+      //
+      // var content = zip.generate({
+      //   type: "blob"
+      // });
+      // saveAs(content, "example.zip");
+    }
+
+    function getUrl(href) {
       var location = document.createElement("a");
       location.href = href;
       // IE doesn't populate all link properties when setting .href with a relative URL,
@@ -38,30 +55,54 @@ if (Meteor.isClient) {
       if (location.host == "") {
         location.href = location.href;
       }
-      return location;
+      var url = {
+        href: href,
+        hostname: location.host,
+        protocol: location.protocol
+      }
+      return url;
     };
 
-    $(".tnails").on("error", "img", function() {
-      $log.debug("ERROR on img");
-      $(this).hide();
-    });
+    function getBase64Image(url) {
+      var img = new Image();
+      img.setAttribute('crossOrigin', 'anonymous');
+      img.src = url;
 
-    $scope.go();
+      // Create an empty canvas element
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Copy the image contents to the canvas
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      // Get the data-URL formatted image
+      // Firefox supports PNG and JPEG. You could check img.src to
+      // guess the original format, but be aware the using "image/jpg"
+      // will re-encode the image.
+      var dataURL = canvas.toDataURL("image/png");
+
+      return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    }
+
+    // $('[data-toggle="tooltip"]').tooltip();
+
+    // $scope.go();
 
   }]);
 
   angular.module("foosker").directive('thumbnail', function() {
     function link(scope, iElement, attr) {
       iElement.find("img").bind('error', function() {
-        $(this).closest("thumbnail").remove();
-        console.debug("Removed due to dead link!");
+        $(this).closest(".thumbnail-wrap").hide();
       });
     }
 
     return {
       link: link,
       template: function(elem, attr) {
-        return '<a href="' + attr.url + '"><img src="' + attr.url + '"/></a>'
+        return '<a href="' + attr.url + '" download><img src="' + attr.url + '"/></a>'
       },
       transclude: true
     };
@@ -72,33 +113,5 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function() {
     // code to run on server at startup
-    Meteor.methods({
-      'getImages': function(data) {
-        var images = handleGetImages(data);
-
-        console.log("Total found images:", images.length);
-
-        return images;
-      }
-    });
-
-    function handleGetImages(urlObj) {
-      var rule;
-      _.each(rules, function(r) {
-        if (_.contains(r.hosts, urlObj.host)) {
-          rule = r;
-          return false;
-        }
-      });
-
-      if (!rule) {
-        rule = defaultRule;
-      }
-
-      console.log("Using rule:", rule.name);
-
-      return (rule.method(urlObj.url));
-    }
-
   });
 }

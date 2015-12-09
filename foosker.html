@@ -3,21 +3,44 @@
     <header class="">
       <div class="left">
         <form ng-submit="go()">
-          <input type="text" id="url" name="url" placeholder="Url to retrieve pictures from" ng-model="url">
-          <button type="submit" class="btn-go">
-            <i class="fa fa-search"></i>
-          </button>
+          <div>
+            <input type="text" id="url" name="url" placeholder="Url to retrieve pictures from" ng-model="url" autocomplete="off">
+            <button type="submit" class="btn-go">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
         </form>
       </div>
-      <!-- <div class="right">
-        <span class="help">
+      <div class="right text-right">
+        <a class="btn-download" href="" ng-click="download()" ng-disable="thumbnails.length == 0" data-toggle="tooltip" data-placement="bottom" title="Download all">
+          <i class="fa fa-download"></i>
+        </a>
+        <a href="" data-toggle="modal" data-target="#modal-about" class="help-toggle">
           <i class="fa fa-question-circle"></i>
-        </span>
-      </div> -->
+        </a>
+      </div>
     </header>
-    <div class="tnails">
-      <thumbnail url="{{ tnail }}" ng-repeat="tnail in urlThumbnails track by $index" class="tnail">
-        <thumbnail>
+    <div class="thumbnails">
+      <div class="thumbnail-wrap" ng-repeat="thumbnail in urlThumbnails track by $index">
+        <thumbnail url="{{ thumbnail }}" class="thumbnail">
+          <thumbnail>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-about" style="padding-top: 10%;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div>
+            {{ applicationName }}
+          </div>
+          <div>
+            Made by Granga
+          </div>
+          <div>
+            <a href="https://github.com/granga">GitHub</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </body>

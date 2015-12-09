@@ -14,7 +14,7 @@ if (Meteor.isServer) {
 
       $("img").each(function(i, img) {
         images.push($(img).attr("src"));
-      })
+      });
 
       return images;
     }
@@ -24,10 +24,8 @@ if (Meteor.isServer) {
     name: "4chan",
     method: function(url) {
       var page = HTTP.get(url).content;
-
-      var cheerio = Meteor.npmRequire('cheerio'),
-        $ = cheerio.load(page);
-
+      var cheerio = Meteor.npmRequire('cheerio');
+      var $ = cheerio.load(page);
       var images = [];
 
       $("img").each(function(i, img) {
@@ -38,7 +36,6 @@ if (Meteor.isServer) {
       var filtered = [];
       _.each(images, function(img) {
         if (img.toLowerCase().contains("s.")) {
-          console.log("It contains .s!");
           var withoutS = img.replace("s.", ".");
           filtered.push(withoutS);
         } else {

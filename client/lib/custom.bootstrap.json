@@ -1,7 +1,7 @@
 {
   "modules" : {
     "normalize"            : true,
-    "print"                : false,
+    "print"                : true,
     "glyphicons"           : false,
 
     "scaffolding"          : false,
@@ -35,8 +35,8 @@
     "wells"                : false,
     "close"                : false,
 
-    "modals"               : false,
-    "tooltip"              : false,
+    "modals"               : true,
+    "tooltip"              : true,
     "popovers"             : false,
     "carousel"             : false,
 
