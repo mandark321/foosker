@@ -1,5 +1,5 @@
 if (Meteor.isClient) {
-  angular.module("foosker", ["angular-meteor"]);
+  angular.module("foosker", ["angular-meteor", "wu.masonry"]);
 
   angular.module("foosker").controller("HomeCtrl", ["$scope", "$log", "$meteor", function($scope, $log, $meteor) {
     $scope.applicationName = applicationName;
@@ -7,13 +7,19 @@ if (Meteor.isClient) {
     $scope.homeThumbnails = [];
     $scope.urlThumbnails = [];
 
-    $scope.url = "http://boards.4chan.org/wg/thread/6396109/alphabet-game";
+    $scope.url = "http://boards.4chan.org/wg/thread/6394517/hd-animal-creature";
 
     $scope.go = function() {
       $scope.urlThumbnails.length = 0;
 
       $meteor.call("getImages", getUrl($scope.url)).then(function(images) {
           $log.debug("Total images loaded:", images.length);
+          var images = _.map(images, function(img, index) {
+            return {
+              src: img,
+              id: index
+            };
+          });
           angular.copy(images, $scope.urlThumbnails);
         },
         function(err) {
@@ -22,28 +28,18 @@ if (Meteor.isClient) {
     }
 
     $scope.download = function() {
-      var images = $(".thumbnails img");
+      var images = $("#links a");
 
       _.each(images, function(a, index) {
         var $a = $(a);
         $(a)[0].click();
-      })
+      });
+    }
 
-
-
-      // var zip = new JSZip();
-      // var images = $(".thumbnails img");
-      //
-      // _.each(images, function(img, index) {
-      //   zip.file(index + ".jpg", getBase64Image(img.src), {
-      //     base64: true
-      //   });
-      // })
-      //
-      // var content = zip.generate({
-      //   type: "blob"
-      // });
-      // saveAs(content, "example.zip");
+    $scope.deleteUrlThumbnail = function(id) {
+      $scope.urlThumbnails = _.reject($scope.urlThumbnails, function(item) {
+        return item.id == id;
+      });
     }
 
     function getUrl(href) {
@@ -63,29 +59,6 @@ if (Meteor.isClient) {
       return url;
     };
 
-    function getBase64Image(url) {
-      var img = new Image();
-      img.setAttribute('crossOrigin', 'anonymous');
-      img.src = url;
-
-      // Create an empty canvas element
-      var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      // Copy the image contents to the canvas
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-
-      // Get the data-URL formatted image
-      // Firefox supports PNG and JPEG. You could check img.src to
-      // guess the original format, but be aware the using "image/jpg"
-      // will re-encode the image.
-      var dataURL = canvas.toDataURL("image/png");
-
-      return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-    }
-
     // $('[data-toggle="tooltip"]').tooltip();
 
     // $scope.go();
@@ -95,7 +68,9 @@ if (Meteor.isClient) {
   angular.module("foosker").directive('thumbnail', function() {
     function link(scope, iElement, attr) {
       iElement.find("img").bind('error', function() {
-        $(this).closest(".thumbnail-wrap").hide();
+        console.log("Removing one", attr.myId);
+        scope.deleteUrlThumbnail(attr.myId);
+        // $(this).closest(".thumbnail-wrap").hide();
       });
     }
 
@@ -108,6 +83,20 @@ if (Meteor.isClient) {
     };
   });
 
+  $(document).ready(function() {
+    $("#links").on("click", ".thumbnail-wrap", function(event) {
+      if ($(event.target).is("a")) return;
+      event = event || window.event;
+      var target = $(this).find("a")[0],
+        link = target.src ? target.parentNode : target,
+        options = {
+          index: link,
+          event: event
+        },
+        links = $("#links a");
+      blueimp.Gallery(links, options);
+    })
+  });
 }
 
 if (Meteor.isServer) {

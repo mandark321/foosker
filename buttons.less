@@ -1,0 +1,36 @@
+@import "vars.less";
+
+.btn {
+  font-weight: bold;
+  display: block;
+  margin: auto;
+  margin-bottom: 5px !important;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 12px;
+  background: rgba(28,99,128,.4);
+  border: 2px solid transparent;
+  border-radius: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  font-size: 14px;
+  -webkit-transition: color 0.1s cubic-bezier(.455,.03,.515,.955),border-color 0.1s cubic-bezier(.455,.03,.515,.955),background 0.1s cubic-bezier(.455,.03,.515,.955);
+  transition: color 0.1s cubic-bezier(.455,.03,.515,.955),border-color 0.1s cubic-bezier(.455,.03,.515,.955),background 0.1s cubic-bezier(.455,.03,.515,.955);
+  user-select: none;
+  &.green {
+    color: #83c648;
+    background: rgba(73,115,48,.4);
+    &:hover {
+      border-color: #83c648;
+    }
+  }
+  &.blue {
+    color: @blue;
+    background: darken(@blue, 25%);
+    &:hover {
+      border-color: @blue;
+    }
+  }
+}

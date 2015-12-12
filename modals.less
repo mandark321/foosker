@@ -1,0 +1,30 @@
+@import "vars.less";
+.modal {
+  padding-top: 10%;
+  .modal-body {
+    padding: 20px;
+  }
+  .modal-footer {
+    padding-bottom: 10px;
+    border-top: none;
+  }
+}
+.modal-content {
+  background: lighten(@bg, 10%);
+  box-shadow: 0 0 10px @blue,0 0 10px rgba(11,179,214,.25);
+  border: none;
+  text-size: 12px;
+}
+.modal-backdrop.in {
+  .opacity(0.7);
+}
+#modal-about {
+  .modal-body {
+    >div {
+      padding: 5px 0;
+    }
+  }
+}
+#modal-download {
+  .modal-content {}
+}

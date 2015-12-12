@@ -7,10 +7,10 @@
     "scaffolding"          : false,
     "type"                 : false,
     "code"                 : false,
-    "grid"                 : false,
+    "grid"                 : true,
     "tables"               : false,
     "forms"                : false,
-    "buttons"              : false,
+    "buttons"              : true,
 
     "component-animations" : false,
     "dropdowns"            : false,

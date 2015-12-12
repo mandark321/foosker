@@ -15,16 +15,15 @@ standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 
 autopublish             # Publish all data to the clients (for prototyping)
-insecure                # Allow all DB writes from clients (for prototyping)
 less
 angular
 underscore
 http
-anonyfox:scrape
 meteorhacks:npm
 
 
 npm-container
 fortawesome:fontawesome
 nemo64:bootstrap
-silentcicero:jszip
+claudiojulio:blueimp-gallery
+eastamis:angular-masonry

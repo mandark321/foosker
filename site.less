@@ -1,37 +1,58 @@
-@import "client/lib/custom.bootstrap.mixins.import.less";
-@bg: #142029;
-@text-color: #fff;
-@lighter-blue: #0bb3d6;
-@logo-color: @lighter-blue;
-@cool-red: rgba(228,82,75,.5);
-@cool-green: #83c648;
+@import "vars.less";
 body {
   background: @bg;
   color: @text-color;
   padding: 10px;
-  font-size: 12px;
+  font-size: @font-size;
+  font-family: @roboto;
+}
+.bg-hint {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  font-size: 4.5vw;
+  text-align: center;
+  padding-top: 20%;
+  cursor: default;
+  .fa {
+    font-size: 5vw;
+  }
+  .opacity(.2);
 }
 .home {
   header {
     .clearfix();
   }
   .left {
-    width: 50%;
+    width: 80%;
+    @media (min-width: @screen-sm-min) {
+      width: 80%;
+    }
+    @media (min-width: @screen-md-min) {
+      width: 70%;
+    }
+    @media (min-width: @screen-lg-min) {
+      width: 50%;
+    }
     float: left;
     .clearfix();
   }
   .right {
     .clearfix();
-    width: 50%;
-    float: left;
+    text-align: right;
+    width: 20%;
+    float: right;
     a {
       font-size: 20px;
       padding-left: 15px;
       text-decoration: none;
       &:hover {
         text-decoration: none;
-        text-shadow: 0 0 15px darken(@lighter-blue, 15%);
-        color: lighten(@lighter-blue, 10%);
+        text-shadow: 0 0 15px darken(@blue, 15%);
+        color: lighten(@blue, 10%);
       }
       &.btn-download {
         color: @cool-green;
@@ -50,20 +71,18 @@ body {
     background: lighten(@bg, 10%);
     padding: 5px 30px 5px 10px;
     transition: box-shadow 0.3s, border 0.3s;
-    font-size: 12px;
     width: 100%;
     border: none;
     box-sizing: border-box;
     &:focus {
-      box-shadow: 0 0 10px @lighter-blue,0 0 10px @lighter-blue;
+      box-shadow: 0 0 10px @blue,0 0 10px @blue;
     }
   }
   .btn-go {
     position: relative;
     float: right;
-    bottom: 20px;
+    bottom: 24px;
     right: 3px;
-    font-size: 12px;
     background: transparent;
     border: none;
     color: @text-color;
@@ -73,35 +92,10 @@ body {
       }
     }
   }
-  .thumbnails {
-    /* Prevent vertical gaps */
+  .thumbnail-wrap {
+    // border: 2px solid #fff;
     line-height: 0;
-    -webkit-column-count: 5;
-    -webkit-column-gap: 0;
-    -moz-column-count: 5;
-    -moz-column-gap: 0;
-    column-count: 5;
-    column-gap: 0;
-    .thumbnail-wrap {
-      padding-right: 6px;
-    }
-    .thumbnail {
-      img {
-        width: 100%;
-        height: auto;
-        border: 2px solid @bg;
-        border-top-width: 2px;
-        border-bottom: none;
-        padding: 2px;
-        background: #fdfdfd;
-      }
-      a {}
-      @media (min-width: 768px) {}
-      @media (min-width: 1024px) {}
-    }
-  }
-  .img-loader {
-    // display: none;
+    // margin: 1px;
   }
 }
 *:focus {
@@ -122,38 +116,40 @@ html::-webkit-scrollbar-thumb {
 html::-webkit-scrollbar-thumb:hover {
   background: #0bb3d6;
 }
-.img-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  /* 16:9 ratio */
-  height: 0;
-  overflow: hidden;
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-.help-toggle {}
-.modal-content {
-  background: lighten(@bg, 10%);
-  padding: 15px;
-  box-shadow: 0 0 10px @lighter-blue,0 0 10px rgba(11,179,214,.25);
-  border: none;
-  text-size: 12px;
-}
-.modal-backdrop.in {
-  .opacity(0.7);
-}
-#modal-about {
-  .modal-content {
-    >div {
-      padding: 5px 0;
-    }
-  }
-}
 a {
-  color: @lighter-blue;
+  color: @blue;
+}
+.masonry-brick,
+.grid-sizer {
+  width: 100%;
+  @media (min-width: @screen-sm-min) {
+    width: 50%;
+  }
+  @media (min-width: @screen-md-min) {
+    width: 33%;
+  }
+  @media (min-width: @screen-lg-min) {
+    width: 25%;
+  }
+}
+.masonry-brick {
+  float: left;
+  img {
+    width: 100%;
+  }
+}
+#links {
+  .clearfix();
+}
+input[type="button"],
+button {
+  outline: none !important;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

@@ -1,5 +1,13 @@
-<body ng-app="foosker">
-  <div class="home" ng-controller="HomeCtrl">
+<head>
+  <title>
+    Foosker
+  </title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+</head>
+
+<body ng-app="foosker" ng-controller="HomeCtrl">
+<div class="bg-hint noselect" ng-show="urlThumbnails.length < 1">Enter URL and click <i class="fa fa-search"></i></div>
+  <div class="home">
     <header class="">
       <div class="left">
         <form ng-submit="go()">
@@ -12,35 +20,110 @@
         </form>
       </div>
       <div class="right text-right">
-        <a class="btn-download" href="" ng-click="download()" ng-disable="thumbnails.length == 0" data-toggle="tooltip" data-placement="bottom" title="Download all">
-          <i class="fa fa-download"></i>
-        </a>
-        <a href="" data-toggle="modal" data-target="#modal-about" class="help-toggle">
-          <i class="fa fa-question-circle"></i>
-        </a>
+        <span data-toggle="tooltip" data-placement="bottom" title="Download all">
+          <a class="btn-download" href="" ng-disabled="urlThumbnails.length < 1" data-toggle="{{ urlThumbnails.length < 1 ? '' : 'modal'}}" data-target="#modal-download">
+            <i class="fa fa-download"></i>
+          </a>
+        </span>
+        <span>
+          <a href="" class="help-toggle" data-toggle="modal" data-target="#modal-about">
+            <i class="fa fa-question-circle"></i>
+          </a>
+        </span>
       </div>
     </header>
-    <div class="thumbnails">
+
+    <!-- <div class="thumbnails" id="links">
       <div class="thumbnail-wrap" ng-repeat="thumbnail in urlThumbnails track by $index">
-        <thumbnail url="{{ thumbnail }}" class="thumbnail">
+      <thumbnail url="{{ thumbnail }}" class="thumbnail">
+        <thumbnail>
+      </div>
+    </div> -->
+
+    <div masonry='{ percentPosition: true }' id="links">
+      <div class="masonry-brick thumbnail-wrap" ng-repeat="thumbnail in urlThumbnails track by $index">
+        <thumbnail url="{{ thumbnail.src }}" class="thumbnail" my-id="{{ thumbnail.id }}">
           <thumbnail>
       </div>
     </div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal-about" style="padding-top: 10%;">
+
+    <!-- modals -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-download">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div>
-            {{ applicationName }}
+          <div class="modal-body">
+            This will initiate download on each picture and save them in your Downloads folder.
+            <br>
+            <br> You may need to agree browser's promt regarding multiple file downloads.
           </div>
-          <div>
-            Made by Granga
+          <div class="modal-footer">
+            <div class="text-right buttons">
+              <button class="btn blue" data-dismiss="modal">
+                Cancel
+              </button>
+              <button class="btn green" ng-click="download()" data-dismiss="modal">
+                Download {{ urlThumbnails.length }} pictures
+              </button>
+            </div>
           </div>
-          <div>
-            <a href="https://github.com/granga">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-about">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div>
+              {{ applicationName }}
+            </div>
+            <div>
+              Made by Granga
+            </div>
+            <div>
+              <a href="https://github.com/granga">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /modals -->
+
+  </div>
+
+  <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+  <div id="blueimp-gallery" class="blueimp-gallery">
+    <!-- The container for the modal slides -->
+    <div class="slides"></div>
+    <!-- Controls for the borderless lightbox -->
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <!-- <ol class="indicator"></ol> -->
+    <!-- The modal dialog, which will be used to wrap the lightbox content -->
+    <div class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body next"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left prev">
+              <i class="glyphicon glyphicon-chevron-left"></i> Previous
+            </button>
+            <button type="button" class="btn btn-primary next">
+              Next
+              <i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </body>
