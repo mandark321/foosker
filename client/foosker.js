@@ -1,4 +1,3 @@
-if (Meteor.isClient) {
   angular.module("foosker", ["angular-meteor", "wu.masonry"]);
 
   angular.module("foosker").controller("HomeCtrl", ["$scope", "$log", "$meteor", function($scope, $log, $meteor) {
@@ -7,7 +6,7 @@ if (Meteor.isClient) {
     $scope.homeThumbnails = [];
     $scope.urlThumbnails = [];
 
-    $scope.url = "http://boards.4chan.org/wg/thread/6394517/hd-animal-creature";
+    //$scope.url = "http://boards.4chan.org/wg/thread/6394517/hd-animal-creature";
 
     $scope.go = function() {
       $scope.urlThumbnails.length = 0;
@@ -97,10 +96,3 @@ if (Meteor.isClient) {
       blueimp.Gallery(links, options);
     })
   });
-}
-
-if (Meteor.isServer) {
-  Meteor.startup(function() {
-    // code to run on server at startup
-  });
-}
