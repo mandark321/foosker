@@ -28,22 +28,22 @@ if (Meteor.isServer) {
       var $ = cheerio.load(page);
       var images = [];
 
-      $("img").each(function(i, img) {
-        images.push($(img).attr("src"));
+      $("a.fileThumb").each(function(i, a) {
+        images.push($(a).attr("href"));
       });
 
       //thumbnails end up with ...s.jpg, let's remove that "s"
-      var filtered = [];
-      _.each(images, function(img) {
-        if (img.toLowerCase().contains("s.")) {
-          var withoutS = img.replace("s.", ".");
-          filtered.push(withoutS);
-        } else {
-          //don't include any small images that can be found above/bellow the thread
-        }
-      });
+      // var filtered = [];
+      // _.each(images, function(img) {
+      //   if (img.toLowerCase().contains("s.")) {
+      //     var withoutS = img.replace("s.", ".");
+      //     filtered.push(withoutS);
+      //   } else {
+      //     //don't include any small images that can be found above/bellow the thread
+      //   }
+      // });
 
-      return filtered;
+      return images;
     },
     hosts: ["4chan.org", "www.4chan.org", "boards.4chan.org"]
   });

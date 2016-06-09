@@ -1,4 +1,4 @@
-  angular.module("foosker", ["angular-meteor", "wu.masonry"]);
+  angular.module("foosker", ["angular-meteor"]);
 
   angular.module("foosker").controller("HomeCtrl", ["$scope", "$log", "$meteor", function($scope, $log, $meteor) {
     $scope.applicationName = applicationName;
