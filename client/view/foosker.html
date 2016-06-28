@@ -33,21 +33,21 @@
             </div>
         </header>
 
-        <!-- <div class="thumbnails" id="links">
-      <div class="thumbnail-wrap" ng-repeat="thumbnail in urlThumbnails track by $index">
-      <thumbnail url="{{ thumbnail }}" class="thumbnail">
-        <thumbnail>
+        <!-- <div class="links" id="links">
+      <div class="link-wrap" ng-repeat="link in urlThumbnails track by $index">
+      <link url="{{ link }}" class="link">
+        <link>
       </div>
     </div> -->
 
         <div id="links">
-            <div class="img-wrap" ng-repeat="thumbnail in urlThumbnails track by $index" ng-switch="thumbnail.extension">
+            <div class="img-wrap" ng-repeat="link in link track by $index" ng-switch="link.extension">
                 <div>
                     <div ng-switch-when="webm">
 
                     </div>
 
-                    <img ng-switch-default class="img-responsive" ng-src="{{ thumbnail.src }}" my-id="{{ thumbnail.id }}" />
+                    <img ng-switch-default class="img-responsive" ng-src="{{ link.src }}" my-id="{{ link.id }}" />
                 </div>
             </div>
         </div>
