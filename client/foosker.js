@@ -4,12 +4,12 @@
     $scope.applicationName = applicationName;
     $scope.url = "";
     $scope.homeThumbnails = [];
-    $scope.urlThumbnails = [];
+    $scope.links = [];
 
-    //$scope.url = "http://boards.4chan.org/wg/thread/6394517/hd-animal-creature";
+    $scope.url = "https://boards.4CHAN.org/wg/thread/6579146/wlsg-waterlandscape-general-1";
 
     $scope.go = function() {
-      $scope.urlThumbnails.length = 0;
+      $scope.links.length = 0;
 
       $meteor.call("getImages", getUrl($scope.url)).then(function(images) {
           $log.debug("Total images loaded:", images.length);
@@ -19,7 +19,7 @@
               id: index
             };
           });
-          angular.copy(images, $scope.urlThumbnails);
+          angular.copy(images, $scope.links);
         },
         function(err) {
           $log.error("Error loading page.");
@@ -36,7 +36,7 @@
     }
 
     $scope.deleteUrlThumbnail = function(id) {
-      $scope.urlThumbnails = _.reject($scope.urlThumbnails, function(item) {
+      $scope.links = _.reject($scope.links, function(item) {
         return item.id == id;
       });
     }
